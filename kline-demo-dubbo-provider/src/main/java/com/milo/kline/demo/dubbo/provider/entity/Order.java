@@ -27,4 +27,5 @@ public class Order extends Model<Order> {
     public Serializable pkVal() {
         return id;
     }
+
 }

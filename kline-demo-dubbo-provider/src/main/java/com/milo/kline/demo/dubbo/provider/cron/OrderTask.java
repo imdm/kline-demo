@@ -2,6 +2,7 @@ package com.milo.kline.demo.dubbo.provider.cron;
 
 import com.milo.kline.demo.dubbo.provider.entity.Order;
 import com.milo.kline.demo.dubbo.provider.mapper.OrderMapper;
+import com.milo.kline.demo.dubbo.provider.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -10,11 +11,11 @@ import java.util.Random;
 
 @Component
 public class OrderTask {
-    private final OrderMapper om;
+    private final OrderService oSvc;
 
     @Autowired
-    public OrderTask(OrderMapper om) {
-       this.om = om;
+    public OrderTask(OrderService oSvc) {
+       this.oSvc = oSvc;
     }
 
     @Scheduled(fixedDelay = 500)
@@ -24,7 +25,7 @@ public class OrderTask {
         o.setPrice(r.nextDouble(100));
         o.setQuantity(r.nextDouble(1000));
         o.setTimestamp(System.currentTimeMillis());
-        om.insert(o);
+        oSvc.saveOrder(o);
         try {
             Thread.sleep(r.nextLong(3000));
         } catch (InterruptedException e) {

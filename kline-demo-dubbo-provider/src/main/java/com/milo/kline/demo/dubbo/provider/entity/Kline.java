@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.milo.kline.demo.api.resp.KlineItem;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -31,5 +32,13 @@ public class Kline extends Model<Kline> {
     @Override
     public Serializable pkVal() {
         return id;
+    }
+
+    public String rdsZSetKey() {
+        return "kline"+period;
+    }
+
+    public KlineItem toItem() {
+        return new KlineItem(fromTimestamp, toTimestamp, open, close, highest, lowest, volume);
     }
 }
